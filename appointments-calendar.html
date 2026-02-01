@@ -558,49 +558,9 @@
         let currentMonth = new Date().getMonth();
         let appointments = [];
 
-        // Generate appointments
+        // Generate appointments - EMPTY for production
         function generateAppointments() {
-            const apts = [];
-            const services = [
-                ['Window cleaning - exterior'],
-                ['Window cleaning - interior'],
-                ['Gutter cleaning - exterior', 'Soft wash'],
-                ['Gutter cleaning - interior'],
-                ['Window cleaning - exterior', 'Window cleaning - interior']
-            ];
-            const salespeople = ['John Smith', 'Sarah Johnson', 'Michael Brown', 'Emily Davis'];
-            const durations = [60, 120, 180];
-
-            const today = new Date();
-            const startDate = new Date(today.getFullYear(), today.getMonth() - 1, 1);
-            const endDate = new Date(2030, 11, 31);
-
-            let date = new Date(startDate);
-            
-            while (date <= endDate) {
-                if (Math.random() < 0.3) {
-                    const hour = 7 + Math.floor(Math.random() * 10);
-                    const minutes = Math.random() > 0.5 ? 0 : 30;
-                    
-                    apts.push({
-                        id: Date.now() + Math.random(),
-                        date: new Date(date),
-                        time: `${String(hour).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`,
-                        duration: durations[Math.floor(Math.random() * durations.length)],
-                        salesperson: salespeople[Math.floor(Math.random() * salespeople.length)],
-                        customerName: `Customer ${Math.floor(Math.random() * 1000)}`,
-                        email: `customer${Math.floor(Math.random() * 1000)}@example.com`,
-                        phone: `+1 (555) ${Math.floor(Math.random() * 900) + 100}-${Math.floor(Math.random() * 9000) + 1000}`,
-                        services: services[Math.floor(Math.random() * services.length)],
-                        address: `${Math.floor(Math.random() * 9999)} Main St, City, State`,
-                        notes: Math.random() > 0.7 ? 'Special instructions' : ''
-                    });
-                }
-                
-                date.setDate(date.getDate() + 1);
-            }
-
-            return apts;
+            return []; // No demo appointments - ready for backend integration
         }
 
         appointments = generateAppointments();
