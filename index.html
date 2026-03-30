@@ -301,7 +301,9 @@
         <!-- TODO: configurer l'intégration backend ici — ne pas exposer de clé API.
              Options : Netlify Forms (attribut netlify sur <form>), Formspree (action vers endpoint),
              ou autre service sans clé côté client. Fallback temporaire : mailto -->
-        <form id="contactForm" action="mailto:infowmb@outlook.com" method="POST" enctype="text/plain" novalidate>
+        <form id="contactForm" name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" action="/merci/" novalidate>
+          <input type="hidden" name="form-name" value="contact">
+          <input type="hidden" name="bot-field" style="display:none">
           <div class="form-grid">
             <div class="form-group">
               <label for="prenom">Prénom *</label>
