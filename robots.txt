@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /thank-you-form/
+
+Sitemap: https://groupewmb.ca/sitemap.xml
