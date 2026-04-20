@@ -558,9 +558,12 @@
         let currentMonth = new Date().getMonth();
         let appointments = [];
 
-        // Generate appointments - EMPTY for production
         function generateAppointments() {
-            return []; // No demo appointments - ready for backend integration
+            const saved = JSON.parse(localStorage.getItem('wmb_appointments') || '[]');
+            return saved.map(apt => ({
+                ...apt,
+                date: new Date(apt.dateKey + 'T00:00:00')
+            }));
         }
 
         appointments = generateAppointments();

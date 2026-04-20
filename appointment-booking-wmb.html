@@ -1345,7 +1345,7 @@
                 time: state.selectedTime
             };
 
-            // Add to bookings
+            // Add to in-memory bookings (for same-session conflict checking)
             const dateKey = formatDateKey(state.selectedDate);
             if (!state.bookings[dateKey]) {
                 state.bookings[dateKey] = [];
@@ -1354,6 +1354,23 @@
                 start: state.selectedTime,
                 duration: state.selectedDuration
             });
+
+            // Persist to localStorage so the calendar can display it
+            const saved = JSON.parse(localStorage.getItem('wmb_appointments') || '[]');
+            saved.push({
+                id: Date.now(),
+                customerName: formData.name,
+                email: formData.email,
+                phone: formData.phone,
+                services: formData.services,
+                address: formData.address,
+                notes: formData.notes,
+                duration: formData.duration,
+                dateKey: dateKey,
+                time: formData.time,
+                salesperson: formData.salesperson
+            });
+            localStorage.setItem('wmb_appointments', JSON.stringify(saved));
 
             // Show success message
             const endTime = minutesToTime(timeToMinutes(state.selectedTime) + state.selectedDuration);
