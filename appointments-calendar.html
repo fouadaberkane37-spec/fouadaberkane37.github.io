@@ -550,7 +550,7 @@
         // Check login
         const loggedIn = localStorage.getItem('wmb_logged_in') || sessionStorage.getItem('wmb_logged_in');
         if (loggedIn !== 'true') {
-            window.location.href = 'index.html';
+            window.location.href = 'admin-login.html?redirect=appointments-calendar.html';
         }
 
         // State
