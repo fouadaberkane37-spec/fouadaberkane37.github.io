@@ -552,21 +552,80 @@
         </div>
     </div>
 
+    <!-- Inline login overlay (appears if not authenticated) -->
+    <div id="loginOverlay" style="position:fixed;inset:0;background:rgba(42,42,42,0.97);z-index:10000;display:none;align-items:center;justify-content:center;padding:1rem;">
+        <div style="background:white;padding:2.5rem;border-radius:2px;box-shadow:0 20px 80px rgba(0,0,0,0.4);max-width:420px;width:100%;">
+            <div style="text-align:center;margin-bottom:1.5rem;">
+                <h2 style="font-family:'Crimson Pro',serif;font-size:1.75rem;font-weight:300;color:#2a2a2a;">Groupe WMB</h2>
+                <p style="font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:#6b8cb3;margin-top:0.25rem;">Admin Portal – Sign In</p>
+            </div>
+            <div id="loginError" style="display:none;background:#fee;border:1px solid #fcc;color:#c00;padding:0.75rem;border-radius:2px;font-size:0.9rem;margin-bottom:1rem;">Incorrect username or password.</div>
+            <form id="inlineLoginForm">
+                <div style="margin-bottom:1rem;">
+                    <label style="display:block;font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;color:#6b8cb3;margin-bottom:0.4rem;">Username</label>
+                    <input type="text" id="loginUsername" required autocomplete="username" style="width:100%;padding:0.875rem 1rem;border:1px solid #e8e4dc;border-radius:2px;font-size:1rem;outline:none;">
+                </div>
+                <div style="margin-bottom:1rem;">
+                    <label style="display:block;font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;color:#6b8cb3;margin-bottom:0.4rem;">Password</label>
+                    <input type="password" id="loginPassword" required autocomplete="current-password" style="width:100%;padding:0.875rem 1rem;border:1px solid #e8e4dc;border-radius:2px;font-size:1rem;outline:none;">
+                </div>
+                <label style="display:flex;align-items:center;gap:0.5rem;margin-bottom:1.25rem;font-size:0.85rem;cursor:pointer;">
+                    <input type="checkbox" id="loginRemember"> Stay logged in on this device
+                </label>
+                <button type="submit" style="width:100%;padding:1rem;background:#4a5f7b;color:white;border:none;border-radius:2px;font-family:'DM Mono',monospace;font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;">Sign In</button>
+            </form>
+            <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid #e8e4dc;font-size:0.75rem;color:#6b8cb3;font-family:'DM Mono',monospace;">
+                <strong style="color:#2a2a2a;">Default accounts:</strong><br>
+                admin / wmb2024 &nbsp;(owner)<br>
+                manager / manager2024<br>
+                john / john2024 &nbsp;(salesperson)
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Auth check
-        const loggedIn = localStorage.getItem('wmb_logged_in') || sessionStorage.getItem('wmb_logged_in');
-        if (loggedIn !== 'true') {
-            window.location.href = 'admin-login.html?redirect=appointments-calendar.html';
+        // ─── Auth ────────────────────────────────────────────────────────────
+        const ACCOUNTS = [
+            { username: 'admin',   password: 'wmb2024',     role: 'owner',       name: 'Owner' },
+            { username: 'manager', password: 'manager2024', role: 'manager',     name: 'Manager' },
+            { username: 'john',    password: 'john2024',    role: 'salesperson', name: 'John Smith' },
+            { username: 'sarah',   password: 'sarah2024',   role: 'salesperson', name: 'Sarah Johnson' },
+            { username: 'michael', password: 'michael2024', role: 'salesperson', name: 'Michael Brown' },
+            { username: 'emily',   password: 'emily2024',   role: 'salesperson', name: 'Emily Davis' },
+        ];
+
+        function getStore() {
+            return localStorage.getItem('wmb_logged_in') === 'true' ? localStorage
+                 : sessionStorage.getItem('wmb_logged_in') === 'true' ? sessionStorage
+                 : null;
         }
 
-        // Role helpers
-        const userRole = localStorage.getItem('wmb_user_role') || sessionStorage.getItem('wmb_user_role') || 'salesperson';
-        const userName = localStorage.getItem('wmb_user_name') || sessionStorage.getItem('wmb_user_name') || '';
-        const username = localStorage.getItem('wmb_username') || sessionStorage.getItem('wmb_username') || '';
+        function isLoggedIn() { return getStore() !== null; }
 
-        const canSeeAll    = userRole === 'owner' || userRole === 'manager';
-        const canDelete    = userRole === 'owner';
-        const canExport    = userRole === 'owner' || userRole === 'manager';
+        function showLogin() {
+            document.getElementById('loginOverlay').style.display = 'flex';
+            setTimeout(() => document.getElementById('loginUsername').focus(), 50);
+        }
+
+        function hideLogin() {
+            document.getElementById('loginOverlay').style.display = 'none';
+        }
+
+        // Initial state — role variables set after successful login
+        let userRole = 'salesperson', userName = '', username = '';
+        let canSeeAll = false, canDelete = false, canExport = false;
+
+        function loadSession() {
+            const store = getStore();
+            if (!store) return false;
+            userRole = store.getItem('wmb_user_role') || 'salesperson';
+            userName = store.getItem('wmb_user_name') || '';
+            username = store.getItem('wmb_username') || '';
+            canSeeAll = userRole === 'owner' || userRole === 'manager';
+            canDelete = userRole === 'owner';
+            canExport = userRole === 'owner' || userRole === 'manager';
+            return true;
+        }
 
         // State
         let currentYear = new Date().getFullYear();
@@ -587,8 +646,6 @@
             }
             return all;
         }
-
-        appointments = generateAppointments();
 
         function getDateKey(date) {
             return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
@@ -843,7 +900,7 @@
                 localStorage.removeItem(k);
                 sessionStorage.removeItem(k);
             });
-            window.location.href = 'admin-login.html';
+            location.reload();
         });
 
         document.getElementById('deleteAptBtn').addEventListener('click', function() {
@@ -853,15 +910,44 @@
             }
         });
 
-        // Role-based UI init
+        // ─── Login form handler ──────────────────────────────────────────────
+        document.getElementById('inlineLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const u = document.getElementById('loginUsername').value.trim().toLowerCase();
+            const p = document.getElementById('loginPassword').value;
+            const account = ACCOUNTS.find(a => a.username === u && a.password === p);
+            if (!account) {
+                document.getElementById('loginError').style.display = 'block';
+                document.getElementById('loginPassword').value = '';
+                return;
+            }
+            const store = document.getElementById('loginRemember').checked ? localStorage : sessionStorage;
+            store.setItem('wmb_logged_in', 'true');
+            store.setItem('wmb_user_role', account.role);
+            store.setItem('wmb_user_name', account.name);
+            store.setItem('wmb_username', account.username);
+            document.getElementById('loginError').style.display = 'none';
+            initCalendar();
+        });
+
+        // ─── Init ────────────────────────────────────────────────────────────
         const roleLabels = { owner: 'Owner', manager: 'Manager', salesperson: 'Salesperson' };
-        document.getElementById('userBadge').textContent =
-            userName + ' · ' + (roleLabels[userRole] || userRole);
-        if (canExport) document.getElementById('exportBtn').style.display = '';
+
+        function initCalendar() {
+            if (!loadSession()) {
+                showLogin();
+                return;
+            }
+            hideLogin();
+            document.getElementById('userBadge').textContent =
+                userName + ' · ' + (roleLabels[userRole] || userRole);
+            document.getElementById('exportBtn').style.display = canExport ? '' : 'none';
+            appointments = generateAppointments();
+            renderCalendar();
+        }
 
         window.showAppointment = showAppointment;
-
-        renderCalendar();
+        initCalendar();
     </script>
 </body>
 </html>
