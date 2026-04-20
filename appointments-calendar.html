@@ -476,9 +476,12 @@
 <body>
     <div class="container">
         <header>
-            <h1>Appointments Calendar</h1>
+            <div>
+                <h1>Appointments Calendar</h1>
+                <div id="userBadge" style="margin-top:0.4rem;font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.07em;text-transform:uppercase;opacity:0.7;"></div>
+            </div>
             <div class="header-actions">
-                <button class="btn btn-secondary" id="exportBtn">Export</button>
+                <button class="btn btn-secondary" id="exportBtn" style="display:none;">Export</button>
                 <div class="menu-container">
                     <button class="hamburger-btn" id="hamburgerBtn">
                         <span></span>
@@ -543,15 +546,27 @@
                 <button class="modal-close" id="closeModal">×</button>
             </div>
             <div id="appointmentDetails"></div>
+            <div id="modalActions" style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--soft-grey);display:none;">
+                <button id="deleteAptBtn" style="padding:0.625rem 1.25rem;background:#c00;color:white;border:none;border-radius:2px;font-family:'DM Mono',monospace;font-size:0.75rem;letter-spacing:0.05em;text-transform:uppercase;cursor:pointer;">Delete Appointment</button>
+            </div>
         </div>
     </div>
 
     <script>
-        // Check login
+        // Auth check
         const loggedIn = localStorage.getItem('wmb_logged_in') || sessionStorage.getItem('wmb_logged_in');
         if (loggedIn !== 'true') {
             window.location.href = 'admin-login.html?redirect=appointments-calendar.html';
         }
+
+        // Role helpers
+        const userRole = localStorage.getItem('wmb_user_role') || sessionStorage.getItem('wmb_user_role') || 'salesperson';
+        const userName = localStorage.getItem('wmb_user_name') || sessionStorage.getItem('wmb_user_name') || '';
+        const username = localStorage.getItem('wmb_username') || sessionStorage.getItem('wmb_username') || '';
+
+        const canSeeAll    = userRole === 'owner' || userRole === 'manager';
+        const canDelete    = userRole === 'owner';
+        const canExport    = userRole === 'owner' || userRole === 'manager';
 
         // State
         let currentYear = new Date().getFullYear();
@@ -560,10 +575,17 @@
 
         function generateAppointments() {
             const saved = JSON.parse(localStorage.getItem('wmb_appointments') || '[]');
-            return saved.map(apt => ({
+            const all = saved.map(apt => ({
                 ...apt,
                 date: new Date(apt.dateKey + 'T00:00:00')
             }));
+            // Salesperson sees only their own appointments
+            if (!canSeeAll) {
+                return all.filter(apt =>
+                    apt.salesperson && apt.salesperson.toLowerCase().includes(username.toLowerCase())
+                );
+            }
+            return all;
         }
 
         appointments = generateAppointments();
@@ -723,7 +745,21 @@
                 ${apt.notes ? `<div class="detail-row"><span class="detail-label">Notes</span><div class="detail-value">${apt.notes}</div></div>` : ''}
             `;
 
+            // Show delete button only for owners
+            document.getElementById('modalActions').style.display = canDelete ? 'block' : 'none';
+            document.getElementById('deleteAptBtn').dataset.id = id;
+
             document.getElementById('appointmentModal').classList.add('show');
+        }
+
+        function deleteAppointment(id) {
+            if (!canDelete) return;
+            const all = JSON.parse(localStorage.getItem('wmb_appointments') || '[]');
+            const updated = all.filter(a => a.id !== id);
+            localStorage.setItem('wmb_appointments', JSON.stringify(updated));
+            appointments = generateAppointments();
+            document.getElementById('appointmentModal').classList.remove('show');
+            renderCalendar();
         }
 
         // Navigation
@@ -803,12 +839,25 @@
 
         document.getElementById('logoutBtn').addEventListener('click', function(e) {
             e.preventDefault();
-            localStorage.removeItem('wmb_logged_in');
-            localStorage.removeItem('wmb_user_email');
-            sessionStorage.removeItem('wmb_logged_in');
-            sessionStorage.removeItem('wmb_user_email');
-            window.location.href = 'index.html';
+            ['wmb_logged_in','wmb_user_role','wmb_user_name','wmb_username'].forEach(k => {
+                localStorage.removeItem(k);
+                sessionStorage.removeItem(k);
+            });
+            window.location.href = 'admin-login.html';
         });
+
+        document.getElementById('deleteAptBtn').addEventListener('click', function() {
+            const id = parseInt(this.dataset.id);
+            if (confirm('Delete this appointment? This cannot be undone.')) {
+                deleteAppointment(id);
+            }
+        });
+
+        // Role-based UI init
+        const roleLabels = { owner: 'Owner', manager: 'Manager', salesperson: 'Salesperson' };
+        document.getElementById('userBadge').textContent =
+            userName + ' · ' + (roleLabels[userRole] || userRole);
+        if (canExport) document.getElementById('exportBtn').style.display = '';
 
         window.showAppointment = showAppointment;
 
