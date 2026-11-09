@@ -2,7 +2,7 @@
 
 Instant-quote website for **ZF Entretien** (window, gutter and house-wash services in Saint-Colomban, Saint-Jérôme and the Laurentides up to Rawdon). Customers enter their address, pick services, take 4 photos of their house, and get a price right away, with no site visit.
 
-- Next.js (App Router) + TypeScript + Tailwind CSS v4, deployable on Vercel
+- Next.js (App Router) + TypeScript + Tailwind CSS v4, hosted on Railway (photos in Vercel Blob)
 - French (Québec) by default at `/`, English at `/en`
 - Mobile-first; photos are compressed on the phone (≤ 2000 px JPEG)
 - Claude vision counts panes, storeys and walls → strict JSON validated with zod
@@ -41,7 +41,7 @@ Everything works locally without any key except the AI analysis:
 | --- | --- |
 | `ANTHROPIC_API_KEY` | Every quote goes to manual review (analysis fails gracefully) |
 | `MAKE_WEBHOOK_URL` | Payload is not sent; a warning is logged |
-| `BLOB_READ_WRITE_TOKEN` | Photos saved in `./.data/uploads` |
+| `BLOB_READ_WRITE_TOKEN` | Photos saved in `./.data/uploads` (refused in production) |
 | `UPSTASH_REDIS_*` | Rate limits kept in memory |
 | `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` | Address step is a plain text field |
 | `QUOTE_SIGNING_SECRET` | A dev-only secret is used (refused in production) |
@@ -52,17 +52,21 @@ To test on your phone on the same Wi-Fi: `npm run dev -- -H 0.0.0.0`, then open 
 
 See [.env.example](.env.example). In production you need: `ANTHROPIC_API_KEY`, `MAKE_WEBHOOK_URL`, `QUOTE_SIGNING_SECRET` (≥ 32 chars), `BLOB_READ_WRITE_TOKEN`, `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`, `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY`, `NEXT_PUBLIC_SITE_URL`. Optional: `ANTHROPIC_MODEL` (default `claude-sonnet-5-5`).
 
-## Deploy on Vercel
+## Deploy on Railway
 
-1. Push this folder to a GitHub repository and import it in Vercel (framework: Next.js, no build settings to change).
-2. **Storage → Blob**: create a Blob store and connect it to the project (adds `BLOB_READ_WRITE_TOKEN`).
-3. **Marketplace → Upstash Redis** (free plan): connect it (adds the `UPSTASH_REDIS_REST_*` variables).
-4. Add the other variables from `.env.example` in **Settings → Environment Variables**.
-5. **Google Cloud**: enable *Maps JavaScript API* and *Places API (New)*, create a browser key restricted to `zfentretien.ca/*`, `*.zfentretien.ca/*` and your Vercel preview domain.
-6. **Make.com**: create a scenario starting with *Webhooks → Custom webhook*, paste its URL in `MAKE_WEBHOOK_URL`, submit one test quote so Make learns the payload structure, then branch on `event`.
-7. Deploy, then add the domain `zfentretien.ca` in **Settings → Domains**.
+The site runs on Railway as a regular Node.js server (`npm run build`, then `npm run start`, which listens on Railway's `PORT`). Photos still go to **Vercel Blob** and rate limits to **Upstash**: both are reached over HTTPS with their tokens, so they work from Railway unchanged.
 
-The quote route allows up to 120 s (`maxDuration`) for two AI attempts; this fits Vercel's default limits with Fluid compute.
+1. **Railway → New Project → Deploy from GitHub repo**: pick this repository and the branch to deploy (`zf-entretien` until it is merged into `main`). Railway detects Next.js; no build or start command to set.
+2. **Variables** (service → Variables): add every variable from `.env.example` **before the first build**: `NEXT_PUBLIC_*` values are built into the pages, so changing them later needs a redeploy.
+   - `BLOB_READ_WRITE_TOKEN`: Vercel → Storage → your existing Blob store → `.env.local` tab. Required: Railway's disk is wiped on every deploy.
+   - `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN`: Upstash console → your database → REST API (on Vercel the same values may be named `KV_REST_API_URL` / `KV_REST_API_TOKEN`).
+3. **Settings → Networking**: generate a `*.up.railway.app` domain to test, then add the custom domain `zfentretien.ca` (and `www`) and create the DNS records Railway shows.
+4. **Google Cloud**: enable *Maps JavaScript API* and *Places API (New)*, create a browser key restricted to `zfentretien.ca/*`, `*.zfentretien.ca/*` and your `*.up.railway.app` test domain.
+5. **Make.com**: the scenario "Site web → Blue work (ZF Entretien)" starts with the custom webhook "ZF Entretien — Soumissions site web"; paste that webhook's URL in `MAKE_WEBHOOK_URL`.
+
+Check on the first deploy (not verifiable before): the build log shows Node ≥ 20.9; the site answers on the Railway domain; one test quote reaches Make; the rate limit counts real visitor IPs (the app reads `x-real-ip`, then `x-forwarded-for`).
+
+The quote route can take up to ~110 s (two AI attempts of up to 50 s). `maxDuration` in `app/api/quote/route.ts` only matters on Vercel; on Railway the app is a long-running server, so check on the first deploy that a full quote (with photos) completes.
 
 ## Make.com payload
 
@@ -96,7 +100,7 @@ Both events share one shape (snake_case, amounts in dollars, before taxes):
 }
 ```
 
-When `needs_review` is true the customer saw no price, but `pricing` still holds a draft (when the analysis succeeded) so you can start from it. If Make cannot be reached after 3 tries, the full payload is written to the Vercel logs (`[webhook] FAILED`) so the lead can be recovered.
+When `needs_review` is true the customer saw no price, but `pricing` still holds a draft (when the analysis succeeded) so you can start from it. If Make cannot be reached after 3 tries, the full payload is written to the Railway deploy logs (`[webhook] FAILED`) so the lead can be recovered.
 
 ## Changing prices and rules
 
@@ -136,7 +140,7 @@ The end-to-end tests build the app and start it with `ANTHROPIC_BASE_URL` pointi
 
 - [ ] Fill in the person in charge of personal information in `config/business.ts` (name, title, email); it is published in the privacy policy.
 - [ ] Confirm the photo retention period (`photoRetentionMonths`) and actually delete old photos (Vercel Blob dashboard or a scheduled job).
-- [ ] Do the privacy impact assessment (EFVP) required before sending personal information outside Québec (Vercel, Anthropic, Make, Google, Upstash).
+- [ ] Do the privacy impact assessment (EFVP) required before sending personal information outside Québec (Railway, Vercel, Anthropic, Make, Blue work, Google, Upstash).
 - [ ] Have the privacy policy text reviewed; bump `privacyPolicyVersion` whenever it changes.
 - [ ] The price is decided by automated processing: the policy and result page tell customers so and give them a way to have a person review it. Keep that phone number answered.
 

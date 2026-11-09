@@ -61,7 +61,8 @@ function Fr() {
         situés à l&apos;extérieur du Québec :
       </p>
       <ul>
-        <li>Vercel (hébergement du site et des photos), États-Unis;</li>
+        <li>Railway (hébergement du site), États-Unis;</li>
+        <li>Vercel (stockage des photos), États-Unis;</li>
         <li>Anthropic (analyse des photos par intelligence artificielle), États-Unis;</li>
         <li>Make (transmission de votre demande à nos outils de gestion);</li>
         <li>Google (suggestions d&apos;adresse pendant que vous tapez);</li>
@@ -132,7 +133,8 @@ function En() {
       <h2>Who has access</h2>
       <p>Our team, and the providers that help us offer this service, only for that purpose. Some are outside Québec:</p>
       <ul>
-        <li>Vercel (website and photo hosting), United States;</li>
+        <li>Railway (website hosting), United States;</li>
+        <li>Vercel (photo storage), United States;</li>
         <li>Anthropic (artificial intelligence photo analysis), United States;</li>
         <li>Make (sending your request to our management tools);</li>
         <li>Google (address suggestions while you type);</li>

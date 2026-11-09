@@ -4,13 +4,15 @@ Read this first. It is the project guideline for whoever (human or Claude) conti
 
 ## Status
 
-All source code is written but **has never been installed, compiled or run**: the machine it was written on had no Node.js. Nothing below is verified until you run it. Expect a few type errors to fix, mostly where third-party APIs (listed under "Verify first") may differ from what the code assumes.
+**Installed, compiled and tested on 2026-11-09** (Node 22, Next 16.4.5, next-intl 4.14.9, `@anthropic-ai/sdk` 1.6.0 pinned, zod 4.6.7): `npm run typecheck` clean, `npm test` 75/75, `npm run test:e2e` 7/7, `/`, `/soumission`, `/en/quote` checked at 390 px (no horizontal scroll, no console errors). No type errors needed fixing.
+
+Still **not verified** (the tests use fakes for all of these): a real Claude API call (does the API accept the schema's `.int().min().max()` and `fallbacks: "default"`?), a real Vercel Blob upload, Upstash, Google Places autocomplete, the Make → Blue work chain, and the Railway deploy itself (see README "Check on the first deploy").
 
 ## The product (spec, already agreed with the owner)
 
 ZF Entretien cleans windows, gutters and houses in Saint-Colomban, Saint-Jérôme and the Laurentides up to Rawdon, Québec (zfentretien.ca). Customers get a price from 4 photos of their house, with no site visit.
 
-- Stack: Next.js App Router + TypeScript + Tailwind v4, deploy on Vercel. French (Québec) first at `/`, English at `/en`. Mobile-first.
+- Stack: Next.js App Router + TypeScript + Tailwind v4, hosted on **Railway** (the owner switched from Vercel on 2026-11-09; see decision 12). French (Québec) first at `/`, English at `/en`. Mobile-first.
 - Flow: 1 address (Google Places autocomplete for typing only; **never fetch or analyze Maps/Satellite/Street View imagery**: Google's terms forbid it) → 2 services (windows/gutters/house wash) → 3 four guided photos (front, back, left, right; `<input accept="image/*" capture="environment">`, compressed in the browser to ≤ 2000 px) → 4 contact + Law 25 consent checkbox linking to the privacy policy → 5 result.
 - AI: photos stored in Vercel Blob, all 4 sent to the Anthropic API (model from `ANTHROPIC_MODEL`, default `claude-sonnet-5-5`), strict JSON validated with zod: `{ panes_per_side: {front, back, left, right}, patio_doors, storeys, walls, obstructions: string[], confidence: 0–1, notes }`. Every piece of glass = 1 pane; a patio door = 2 panes. Invalid output → retry once → manual review.
 - Pricing (pure function, unit tested, all rates in `config/pricing.ts`): windows $10/pane, or $7.50 with the annual plan or gutters in the same visit; gutters $150 × storeys; house wash $200 × walls; $150 minimum per visit; annual plan = windows twice a year at $7.50 + gutters once a year, shown as annual total and monthly (÷ 12). Check: 30 panes, 2 storeys, windows + gutters = $525; plan $750/year = $62.50/month.
@@ -31,6 +33,8 @@ ZF Entretien cleans windows, gutters and houses in Saint-Colomban, Saint-Jérôm
 9. i18n: next-intl, `localeDetection: false` (everyone lands in French), localized paths `/soumission` ↔ `/en/quote`, `/confidentialite` ↔ `/en/privacy`.
 10. Design: one typeface (Schibsted Grotesk), white + deep blue `#0b3b8f` + pale "glass" `#eaf2fb`. The single bold motif is the four-pane window: the hero and the photo step show the 4 photos as the 4 panes of a window.
 11. The AI call enables the API's server-side refusal fallback (`fallbacks: "default"`) for models that support it.
+12. **Hosting: Railway, not Vercel** (owner, 2026-11-09). The existing Vercel Blob store (photos) and Upstash database (rate limits) are reused through their tokens. Because Railway's disk is wiped on every deploy, a production build refuses to store photos locally unless `ALLOW_LOCAL_PHOTO_STORAGE=1` (set only by the e2e tests). Client IP for rate limits: `x-real-ip` first, then the first `x-forwarded-for` entry. Decision 1's one-request-per-photo upload is kept.
+13. **Make → Blue work.** The Make scenario "Site web → Blue work (ZF Entretien)" (webhook "ZF Entretien — Soumissions site web") receives both events and posts them to the Blue work intake form "Site web — Soumissions (Make)" (workspace Vitr'O Top Solutions, lead stage "Quote"), the same way the Meta Ads scenario does: a submitted quote becomes a lead; an acceptance arrives as a second entry whose name starts with "ACCEPTÉ —". The scenario stays inactive until the form's fields exist (Blue work fields can only be added in its UI); the webhook queues up to 50 requests meanwhile.
 
 ## Verify first (most likely to need fixes)
 

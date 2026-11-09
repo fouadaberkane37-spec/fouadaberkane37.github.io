@@ -6,7 +6,7 @@ import { upstashConfig } from "@/lib/env";
 
 /**
  * Per-IP limits on the API routes. Upstash Redis in production (shared by every
- * Vercel instance); an in-memory window in development.
+ * server instance and kept across deploys); an in-memory window in development.
  */
 
 export type LimitName = keyof typeof RATE_LIMITS;
@@ -58,10 +58,14 @@ export async function rateLimit(name: LimitName, req: Request): Promise<LimitRes
   }
 }
 
-/** Vercel sets x-forwarded-for to the real client IP (client-sent values are overwritten). */
+/**
+ * x-real-ip holds the single address the hosting proxy (Railway, Vercel) saw. The first
+ * x-forwarded-for entry is only a fallback: a client can prepend its own values to that header.
+ */
 export function clientIp(req: Request): string {
+  const real = req.headers.get("x-real-ip")?.trim();
   const forwarded = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
-  return forwarded || req.headers.get("x-real-ip")?.trim() || "unknown";
+  return real || forwarded || "unknown";
 }
 
 export function tooManyRequests(retryAfterSeconds: number): Response {

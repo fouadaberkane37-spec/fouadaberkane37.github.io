@@ -17,7 +17,7 @@
     "test:all": "npm run typecheck && npm run test && npm run test:e2e"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "latest",
+    "@anthropic-ai/sdk": "1.6.0",
     "@upstash/ratelimit": "^2.0.5",
     "@upstash/redis": "^1.35.0",
     "@vercel/blob": "^1.1.1",

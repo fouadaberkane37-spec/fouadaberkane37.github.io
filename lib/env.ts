@@ -7,7 +7,8 @@ import { AI_SETTINGS } from "@/config/business";
  */
 
 const isProduction = () => process.env.NODE_ENV === "production";
-const onVercel = () => Boolean(process.env.VERCEL);
+/** Photos on local disk: development, and production builds that opt in (the end-to-end tests). */
+const localPhotosAllowed = () => !isProduction() || process.env.ALLOW_LOCAL_PHOTO_STORAGE === "1";
 
 export function anthropicModel(): string {
   return process.env.ANTHROPIC_MODEL?.trim() || AI_SETTINGS.defaultModel;
@@ -19,8 +20,9 @@ export function makeWebhookUrl(): string | null {
 
 export function blobToken(): string | null {
   const token = process.env.BLOB_READ_WRITE_TOKEN?.trim() || null;
-  if (!token && onVercel()) {
-    throw new Error("BLOB_READ_WRITE_TOKEN is required on Vercel (photos cannot be stored on local disk).");
+  if (!token && !localPhotosAllowed()) {
+    // Railway's disk is wiped on every deploy: customer photos must go to Vercel Blob.
+    throw new Error("BLOB_READ_WRITE_TOKEN is required in production (photos cannot be stored on the server's disk).");
   }
   return token;
 }

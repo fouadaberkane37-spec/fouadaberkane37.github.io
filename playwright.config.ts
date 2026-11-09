@@ -42,6 +42,7 @@ export default defineConfig({
         NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: "",
         NEXT_PUBLIC_SITE_URL: `http://localhost:${PORT}`,
         BLOB_READ_WRITE_TOKEN: "",
+        ALLOW_LOCAL_PHOTO_STORAGE: "1", // production build, photos in .data/uploads
         UPSTASH_REDIS_REST_URL: "",
         UPSTASH_REDIS_REST_TOKEN: "",
       },
