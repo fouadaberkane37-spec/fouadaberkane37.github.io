@@ -1,0 +1,169 @@
+{
+  "meta": {
+    "title": "ZF Entretien | Prix de lavage de vitres en 4 photos",
+    "description": "Lavage de vitres, nettoyage de gouttières et lavage de maison à Saint-Colomban, Saint-Jérôme et dans les Laurentides. Obtenez votre prix tout de suite à partir de 4 photos.",
+    "quoteTitle": "Obtenir mon prix | ZF Entretien",
+    "privacyTitle": "Politique de confidentialité | ZF Entretien"
+  },
+  "nav": {
+    "getQuote": "Obtenir mon prix",
+    "otherLanguage": "English",
+    "switchLabel": "Switch to English",
+    "home": "ZF Entretien, accueil"
+  },
+  "services": {
+    "windows": "Lavage de vitres",
+    "gutters": "Nettoyage de gouttières",
+    "houseWash": "Lavage de maison"
+  },
+  "sides": {
+    "front": "Façade avant",
+    "back": "Arrière",
+    "left": "Côté gauche",
+    "right": "Côté droit"
+  },
+  "home": {
+    "heroTitle": "Votre prix de lavage de vitres en 4 photos",
+    "heroLead": "Photographiez l'avant, l'arrière et les deux côtés de votre maison avec votre cellulaire. Votre prix s'affiche tout de suite, sans visite à domicile.",
+    "heroCta": "Obtenir mon prix",
+    "heroArea": "Saint-Colomban, Saint-Jérôme et les Laurentides jusqu'à Rawdon",
+    "servicesTitle": "Ce que nous nettoyons",
+    "windowsText": "Fenêtres et portes-patio. {regular} le carreau, ou {discounted} si on fait aussi vos gouttières.",
+    "guttersText": "Gouttières vidées et nettoyées. {price} par étage.",
+    "houseWashText": "Murs extérieurs de la maison lavés. {price} par mur.",
+    "minimum": "Minimum de {price} par visite. Prix avant taxes.",
+    "howTitle": "Comment ça marche",
+    "how1": "Entrez votre adresse et choisissez vos services.",
+    "how2": "Prenez 4 photos de votre maison. On vous montre où vous placer pour chacune.",
+    "how3": "Voyez votre prix et acceptez-le en un clic. On vous appelle pour fixer la date.",
+    "planTitle": "Le forfait annuel",
+    "planText": "Vos vitres lavées 2 fois par année et vos gouttières nettoyées une fois par année, payés au mois. Le carreau passe à {discounted}.",
+    "areaTitle": "Où nous travaillons",
+    "areaText": "Saint-Colomban, Saint-Jérôme et les Laurentides jusqu'à Rawdon. Vous êtes un peu plus loin? Faites quand même votre demande : nous vous confirmerons si nous pouvons nous rendre.",
+    "finalCta": "Prêt? Ça prend environ 3 minutes."
+  },
+  "quote": {
+    "progress": "Étape {current} sur {total}",
+    "back": "Retour",
+    "continue": "Continuer",
+    "address": {
+      "title": "Quelle est l'adresse de la maison?",
+      "label": "Adresse",
+      "placeholder": "123, rue Principale, Saint-Colomban",
+      "hint": "Commencez à taper, puis choisissez votre adresse dans la liste.",
+      "hintManual": "Entrez l'adresse complète : numéro, rue et ville.",
+      "noResults": "Aucune adresse trouvée. Vous pouvez continuer avec l'adresse telle que tapée.",
+      "suggestions": "Adresses suggérées"
+    },
+    "services": {
+      "title": "Quels services voulez-vous?",
+      "hint": "Choisissez un ou plusieurs services.",
+      "windowsHint": "{regular} le carreau, {discounted} avec les gouttières",
+      "guttersHint": "{price} par étage",
+      "houseWashHint": "{price} par mur"
+    },
+    "photos": {
+      "title": "Prenez 4 photos de votre maison",
+      "hint": "Une photo par côté, de jour, en reculant assez pour voir tout le mur, du sol jusqu'au toit.",
+      "count": "{count} sur 4 photos",
+      "take": "Prendre la photo",
+      "retake": "Reprendre la photo",
+      "gallery": "Choisir dans la galerie",
+      "processing": "Préparation de la photo…",
+      "diagramLabel": "Plan vu du dessus : placez-vous à l'endroit marqué pour photographier le côté « {side} ».",
+      "street": "Rue",
+      "you": "Vous",
+      "paneLabel": "{side} : {state}",
+      "stateDone": "photo prise",
+      "stateTodo": "à prendre",
+      "tip_front": "Placez-vous dans la rue ou au bout de l'entrée, face à la maison.",
+      "tip_back": "Allez dans la cour arrière et reculez le plus possible. Les portes-patio doivent être visibles.",
+      "tip_left": "Face à la maison, faites le tour par la gauche et reculez pour voir le mur au complet.",
+      "tip_right": "Face à la maison, faites le tour par la droite et reculez pour voir le mur au complet.",
+      "landscape": "Astuce : tenez votre cellulaire à l'horizontale."
+    },
+    "contact": {
+      "title": "Où vous envoyer votre prix?",
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "phone": "Téléphone",
+      "email": "Courriel",
+      "consent": "J'accepte que ZF Entretien recueille mes coordonnées et les photos de ma maison pour préparer ma soumission, selon sa <link>politique de confidentialité</link>.",
+      "submit": "Voir mon prix",
+      "honeypot": "Laissez ce champ vide"
+    },
+    "submitting": {
+      "title": "Analyse de vos photos",
+      "upload": "Envoi des photos",
+      "analyze": "Comptage des carreaux et des étages",
+      "price": "Calcul de votre prix",
+      "note": "Cela prend habituellement moins d'une minute. Gardez cette page ouverte."
+    },
+    "result": {
+      "title": "Votre prix",
+      "taxes": "Prix avant taxes (TPS et TVQ en sus).",
+      "planBadge": "Meilleur rapport qualité-prix",
+      "planName": "Forfait annuel",
+      "perMonth": "par mois",
+      "perYear": "{amount} par année",
+      "planWindows": "Vitres lavées 2 fois par année, à {rate} le carreau",
+      "planGutters": "Gouttières nettoyées 1 fois par année",
+      "planAddOn": "{service} en sus : {amount}, une fois",
+      "planAccept": "Accepter le forfait annuel",
+      "oneTimeName": "Prix unique",
+      "oneTimeSub": "Une visite",
+      "lineWindows": "{count} carreaux × {rate}",
+      "lineGutters": "{count, plural, one {# étage} other {# étages}} × {rate}",
+      "lineHouseWash": "{count} murs × {rate}",
+      "minimum": "Minimum de {amount} par visite appliqué",
+      "oneTimeAccept": "Accepter le prix unique",
+      "accepting": "Envoi en cours…",
+      "acceptError": "Votre réponse n'a pas été envoyée. Réessayez, ou appelez-nous au {phone}.",
+      "acceptExpired": "Ce prix a expiré. Faites une nouvelle soumission ou appelez-nous au {phone}.",
+      "breakdownTitle": "Ce que nous avons compté",
+      "breakdownIntro": "Vérifiez ces chiffres. S'il y a une erreur, appelez-nous au {phone} et nous ajusterons votre prix.",
+      "panes": "Carreaux de vitre",
+      "panesTotal": "{count} au total",
+      "patioDoors": "{count, plural, one {# porte-patio} other {# portes-patio}}, 2 carreaux chacune",
+      "storeys": "Étages",
+      "walls": "Murs",
+      "servicesChosen": "Services choisis",
+      "newQuote": "Faire une nouvelle soumission"
+    },
+    "review": {
+      "title": "Nous confirmons votre prix d'ici 2 heures",
+      "body": "Un membre de notre équipe vérifie vos photos. Nous vous joindrons au {phone} ou à {email}.",
+      "note": "Vous n'avez rien d'autre à faire. Une question? Appelez-nous au {phone}."
+    },
+    "accepted": {
+      "title": "C'est confirmé",
+      "annual_plan": "Merci {firstName}! Vous avez choisi le forfait annuel. Nous vous appelons sous peu pour fixer la date de votre première visite.",
+      "one_time": "Merci {firstName}! Vous avez accepté le prix unique. Nous vous appelons sous peu pour fixer la date de votre visite."
+    },
+    "errors": {
+      "address": "Entrez l'adresse complète de la maison.",
+      "services": "Choisissez au moins un service.",
+      "photosMissing": "Il manque {count, plural, one {# photo} other {# photos}}.",
+      "notImage": "Ce fichier n'est pas une photo. Choisissez une image.",
+      "unreadable": "Cette photo n'a pas pu être lue. Prenez-la de nouveau ou choisissez-en une autre.",
+      "firstName": "Entrez votre prénom.",
+      "lastName": "Entrez votre nom.",
+      "phone": "Entrez un numéro à 10 chiffres, par exemple 450 555-1234.",
+      "email": "Entrez une adresse courriel valide, par exemple nom@exemple.ca.",
+      "consent": "Cochez la case pour que nous puissions préparer votre prix.",
+      "rate_limited": "Trop de demandes ont été envoyées depuis votre connexion. Réessayez dans une heure ou appelez-nous au {phone}.",
+      "too_large": "Une photo est trop lourde. Reprenez-la, puis réessayez.",
+      "network": "La connexion a été interrompue. Vérifiez votre réseau, puis réessayez.",
+      "generic": "L'envoi n'a pas fonctionné. Réessayez, ou appelez-nous au {phone}."
+    }
+  },
+  "footer": {
+    "privacy": "Politique de confidentialité",
+    "rights": "© {year} ZF Entretien",
+    "contact": "Nous joindre"
+  },
+  "notFound": {
+    "title": "Cette page n'existe pas",
+    "back": "Retour à l'accueil"
+  }
+}

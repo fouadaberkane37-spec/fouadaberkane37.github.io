@@ -1,0 +1,169 @@
+{
+  "meta": {
+    "title": "ZF Entretien | Window cleaning price from 4 photos",
+    "description": "Window cleaning, gutter cleaning and house washing in Saint-Colomban, Saint-Jérôme and the Laurentides. Get your price right away from 4 photos.",
+    "quoteTitle": "Get my price | ZF Entretien",
+    "privacyTitle": "Privacy policy | ZF Entretien"
+  },
+  "nav": {
+    "getQuote": "Get my price",
+    "otherLanguage": "Français",
+    "switchLabel": "Passer au français",
+    "home": "ZF Entretien, home"
+  },
+  "services": {
+    "windows": "Window cleaning",
+    "gutters": "Gutter cleaning",
+    "houseWash": "House wash"
+  },
+  "sides": {
+    "front": "Front",
+    "back": "Back",
+    "left": "Left side",
+    "right": "Right side"
+  },
+  "home": {
+    "heroTitle": "Your window cleaning price from 4 photos",
+    "heroLead": "Take a photo of the front, the back and both sides of your house with your phone. Your price shows up right away, with no home visit.",
+    "heroCta": "Get my price",
+    "heroArea": "Saint-Colomban, Saint-Jérôme and the Laurentides up to Rawdon",
+    "servicesTitle": "What we clean",
+    "windowsText": "Windows and patio doors. {regular} per pane, or {discounted} when we also do your gutters.",
+    "guttersText": "Gutters emptied and cleaned. {price} per storey.",
+    "houseWashText": "Exterior walls of the house washed. {price} per wall.",
+    "minimum": "{price} minimum per visit. Prices before taxes.",
+    "howTitle": "How it works",
+    "how1": "Enter your address and pick your services.",
+    "how2": "Take 4 photos of your house. We show you where to stand for each one.",
+    "how3": "See your price and accept it in one tap. We call you to set the date.",
+    "planTitle": "The annual plan",
+    "planText": "Windows cleaned twice a year and gutters cleaned once a year, paid monthly. Panes drop to {discounted}.",
+    "areaTitle": "Where we work",
+    "areaText": "Saint-Colomban, Saint-Jérôme and the Laurentides up to Rawdon. A little farther away? Send your request anyway: we'll confirm whether we can come.",
+    "finalCta": "Ready? It takes about 3 minutes."
+  },
+  "quote": {
+    "progress": "Step {current} of {total}",
+    "back": "Back",
+    "continue": "Continue",
+    "address": {
+      "title": "What is the address of the house?",
+      "label": "Address",
+      "placeholder": "123 Principale Street, Saint-Colomban",
+      "hint": "Start typing, then pick your address from the list.",
+      "hintManual": "Enter the full address: number, street and town.",
+      "noResults": "No address found. You can continue with the address as typed.",
+      "suggestions": "Suggested addresses"
+    },
+    "services": {
+      "title": "Which services do you want?",
+      "hint": "Pick one or more services.",
+      "windowsHint": "{regular} per pane, {discounted} with gutters",
+      "guttersHint": "{price} per storey",
+      "houseWashHint": "{price} per wall"
+    },
+    "photos": {
+      "title": "Take 4 photos of your house",
+      "hint": "One photo per side, in daylight, standing far enough back to see the whole wall from the ground to the roof.",
+      "count": "{count} of 4 photos",
+      "take": "Take the photo",
+      "retake": "Retake the photo",
+      "gallery": "Choose from gallery",
+      "processing": "Preparing the photo…",
+      "diagramLabel": "Top view: stand where marked to photograph the \"{side}\" side.",
+      "street": "Street",
+      "you": "You",
+      "paneLabel": "{side}: {state}",
+      "stateDone": "photo taken",
+      "stateTodo": "to take",
+      "tip_front": "Stand in the street or at the end of the driveway, facing the house.",
+      "tip_back": "Go to the backyard and step back as far as you can. Patio doors must be visible.",
+      "tip_left": "Facing the house, walk around to the left and step back to see the whole wall.",
+      "tip_right": "Facing the house, walk around to the right and step back to see the whole wall.",
+      "landscape": "Tip: hold your phone sideways."
+    },
+    "contact": {
+      "title": "Where should we send your price?",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "phone": "Phone",
+      "email": "Email",
+      "consent": "I agree that ZF Entretien collects my contact information and the photos of my house to prepare my quote, as described in its <link>privacy policy</link>.",
+      "submit": "See my price",
+      "honeypot": "Leave this field empty"
+    },
+    "submitting": {
+      "title": "Analyzing your photos",
+      "upload": "Sending the photos",
+      "analyze": "Counting panes and storeys",
+      "price": "Working out your price",
+      "note": "This usually takes less than a minute. Keep this page open."
+    },
+    "result": {
+      "title": "Your price",
+      "taxes": "Prices before taxes (GST and QST extra).",
+      "planBadge": "Best value",
+      "planName": "Annual plan",
+      "perMonth": "per month",
+      "perYear": "{amount} per year",
+      "planWindows": "Windows cleaned twice a year, at {rate} per pane",
+      "planGutters": "Gutters cleaned once a year",
+      "planAddOn": "{service} extra: {amount}, once",
+      "planAccept": "Accept the annual plan",
+      "oneTimeName": "One-time price",
+      "oneTimeSub": "One visit",
+      "lineWindows": "{count} panes × {rate}",
+      "lineGutters": "{count, plural, one {# storey} other {# storeys}} × {rate}",
+      "lineHouseWash": "{count} walls × {rate}",
+      "minimum": "{amount} minimum per visit applied",
+      "oneTimeAccept": "Accept the one-time price",
+      "accepting": "Sending…",
+      "acceptError": "Your answer was not sent. Try again, or call us at {phone}.",
+      "acceptExpired": "This price has expired. Start a new quote or call us at {phone}.",
+      "breakdownTitle": "What we counted",
+      "breakdownIntro": "Check these numbers. If something is wrong, call us at {phone} and we will adjust your price.",
+      "panes": "Window panes",
+      "panesTotal": "{count} in total",
+      "patioDoors": "{count, plural, one {# patio door} other {# patio doors}}, 2 panes each",
+      "storeys": "Storeys",
+      "walls": "Walls",
+      "servicesChosen": "Services chosen",
+      "newQuote": "Start a new quote"
+    },
+    "review": {
+      "title": "We will confirm your price within 2 hours",
+      "body": "A member of our team is checking your photos. We will reach you at {phone} or {email}.",
+      "note": "There is nothing else to do. Questions? Call us at {phone}."
+    },
+    "accepted": {
+      "title": "You're all set",
+      "annual_plan": "Thank you, {firstName}! You chose the annual plan. We will call you shortly to set the date of your first visit.",
+      "one_time": "Thank you, {firstName}! You accepted the one-time price. We will call you shortly to set the date of your visit."
+    },
+    "errors": {
+      "address": "Enter the full address of the house.",
+      "services": "Pick at least one service.",
+      "photosMissing": "{count, plural, one {# photo is} other {# photos are}} missing.",
+      "notImage": "This file is not a photo. Choose an image.",
+      "unreadable": "This photo could not be read. Take it again or choose another one.",
+      "firstName": "Enter your first name.",
+      "lastName": "Enter your last name.",
+      "phone": "Enter a 10-digit number, for example 450 555-1234.",
+      "email": "Enter a valid email address, for example name@example.com.",
+      "consent": "Check the box so we can prepare your price.",
+      "rate_limited": "Too many requests were sent from your connection. Try again in an hour or call us at {phone}.",
+      "too_large": "A photo is too large. Retake it, then try again.",
+      "network": "The connection was interrupted. Check your network, then try again.",
+      "generic": "Sending did not work. Try again, or call us at {phone}."
+    }
+  },
+  "footer": {
+    "privacy": "Privacy policy",
+    "rights": "© {year} ZF Entretien",
+    "contact": "Contact us"
+  },
+  "notFound": {
+    "title": "This page does not exist",
+    "back": "Back to home"
+  }
+}

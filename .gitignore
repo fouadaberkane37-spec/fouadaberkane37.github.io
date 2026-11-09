@@ -1,0 +1,27 @@
+# dependencies
+node_modules/
+
+# next.js
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
+# local photo storage (dev / e2e)
+.data/
+
+# env files (keep .env.example)
+.env
+.env*.local
+.env.production
+
+# tests
+test-results/
+playwright-report/
+blob-report/
+coverage/
+
+# misc
+.vercel
+.DS_Store
+*.log

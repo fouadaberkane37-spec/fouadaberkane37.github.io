@@ -1,0 +1,108 @@
+@import "tailwindcss";
+
+/*
+  ZF Entretien — tokens
+  White paper, one deep blue, a pale "glass" tint for anything photo/window related.
+  The four-pane window (frame + mullions) is the one bold motif; everything else stays quiet.
+*/
+@theme {
+  --color-paper: #ffffff;
+  --color-ink: #14243b;
+  --color-ink-soft: #4a5b73;
+  --color-blue: #0b3b8f;
+  --color-blue-deep: #082c6b;
+  --color-glass: #eaf2fb;
+  --color-glass-strong: #d4e4f7;
+  --color-line: #d6dfeb;
+  --color-danger: #b42318;
+  --color-danger-soft: #fdecea;
+  --color-ok: #1e7a4c;
+
+  --font-sans: var(--font-schibsted), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-control: 10px;
+  --radius-frame: 6px;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-feature-settings: "tnum" 0;
+    line-height: 1.5;
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-blue);
+    outline-offset: 2px;
+  }
+  ::selection {
+    background: var(--color-glass-strong);
+  }
+}
+
+@layer components {
+  /* The window frame: thick blue border with a cross of mullions between four panes. */
+  .window-frame {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    padding: 6px;
+    background: var(--color-blue);
+    border-radius: var(--radius-frame);
+  }
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Long-form text (privacy policy) */
+  .prose-zf {
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
+  .prose-zf h1 {
+    font-size: 2.25rem;
+    line-height: 1.1;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .prose-zf .lead {
+    margin-top: 0.5rem;
+    color: var(--color-ink-soft);
+  }
+  .prose-zf h2 {
+    margin-top: 2.25rem;
+    font-size: 1.3rem;
+    font-weight: 700;
+  }
+  .prose-zf p,
+  .prose-zf ul {
+    margin-top: 0.75rem;
+    max-width: 68ch;
+  }
+  .prose-zf ul {
+    list-style: disc;
+    padding-left: 1.25rem;
+  }
+  .prose-zf li + li {
+    margin-top: 0.25rem;
+  }
+  .prose-zf a {
+    color: var(--color-blue);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
