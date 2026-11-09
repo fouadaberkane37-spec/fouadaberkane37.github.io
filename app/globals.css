@@ -106,3 +106,8 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Quote steps: keep the footer's last line clear of the fixed button bar. */
+body:has([data-step-bar]) footer {
+  padding-bottom: calc(6rem + env(safe-area-inset-bottom));
+}

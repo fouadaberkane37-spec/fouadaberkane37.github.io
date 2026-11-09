@@ -52,7 +52,7 @@ export function StepShell({ step, total, title, hint, children, onBack, onNext, 
 
       <div className="mt-8">{children}</div>
 
-      <div className="fixed inset-x-0 bottom-0 z-30 border-t border-line bg-paper/95 px-4 py-3 backdrop-blur pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+      <div data-step-bar className="fixed inset-x-0 bottom-0 z-30 border-t border-line bg-paper/95 px-4 py-3 backdrop-blur pb-[max(0.75rem,env(safe-area-inset-bottom))]">
         <div className="mx-auto flex max-w-xl gap-3">
           {onBack && (
             <Button variant="secondary" onClick={onBack} className="shrink-0">
