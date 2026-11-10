@@ -1,8 +1,7 @@
 "use client";
 
-import { useLocale, useTranslations } from "next-intl";
-import { PRICING, type ServiceId } from "@/config/pricing";
-import { formatMoney } from "@/lib/format";
+import { useTranslations } from "next-intl";
+import type { ServiceId } from "@/config/pricing";
 import { SERVICES } from "@/lib/schemas";
 
 interface Props {
@@ -13,16 +12,11 @@ interface Props {
 
 export function StepServices({ value, onChange, error }: Props) {
   const t = useTranslations();
-  const locale = useLocale();
-  const money = (cents: number) => formatMoney(cents, locale);
 
   const hints: Record<ServiceId, string> = {
-    windows: t("quote.services.windowsHint", {
-      regular: money(PRICING.windows.perPaneCents),
-      discounted: money(PRICING.windows.discountedPerPaneCents),
-    }),
-    gutters: t("quote.services.guttersHint", { price: money(PRICING.gutters.perStoreyCents) }),
-    houseWash: t("quote.services.houseWashHint", { price: money(PRICING.houseWash.perWallCents) }),
+    windows: t("quote.services.windowsHint"),
+    gutters: t("quote.services.guttersHint"),
+    houseWash: t("quote.services.houseWashHint"),
   };
 
   function toggle(service: ServiceId) {

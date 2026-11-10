@@ -3,10 +3,8 @@
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef } from "react";
 import { BUSINESS } from "@/config/business";
-import { PRICING } from "@/config/pricing";
 import { Alert, Button, buttonStyles, Spinner } from "@/components/ui";
 import { formatMoney, formatPhone } from "@/lib/format";
-import type { LineItem } from "@/lib/pricing";
 import type { PublicQuote } from "@/lib/quote";
 import { SIDES, type AcceptOption } from "@/lib/schemas";
 
@@ -40,13 +38,6 @@ export function PricedResult({
   const { oneTime, annualPlan } = quote.pricing;
   const phone = formatPhone(BUSINESS.phone);
 
-  const lineText = (l: LineItem) =>
-    l.service === "windows"
-      ? t("quote.result.lineWindows", { count: l.quantity, rate: money(l.unitCents) })
-      : l.service === "gutters"
-        ? t("quote.result.lineGutters", { count: l.quantity, rate: money(l.unitCents) })
-        : t("quote.result.lineHouseWash", { count: l.quantity, rate: money(l.unitCents) });
-
   return (
     <div className="pb-16">
       <h1 ref={heading} tabIndex={-1} className={headingClass}>
@@ -77,7 +68,7 @@ export function PricedResult({
               {t("quote.result.perYear", { amount: money(annualPlan.annualCents) })}
             </p>
             <ul className="mt-5 grid gap-2 border-t border-white/25 pt-4">
-              <li>{t("quote.result.planWindows", { rate: money(PRICING.windows.discountedPerPaneCents) })}</li>
+              <li>{t("quote.result.planWindows")}</li>
               <li>{t("quote.result.planGutters")}</li>
               {annualPlan.addOns.map((a) => (
                 <li key={a.service} className="text-white/85">
@@ -105,22 +96,11 @@ export function PricedResult({
             {money(oneTime.totalCents)}
           </p>
           <p className="text-ink-soft">{t("quote.result.oneTimeSub")}</p>
-          <ul className="mt-4 grid gap-1.5 border-t border-line pt-4 tabular">
+          <ul className="mt-4 grid gap-1.5 border-t border-line pt-4">
             {oneTime.lines.map((l) => (
-              <li key={l.service} className="flex justify-between gap-4">
-                <span>
-                  {t(`services.${l.service}`)}
-                  <span className="block text-sm text-ink-soft">{lineText(l)}</span>
-                </span>
-                <span className="font-semibold">{money(l.totalCents)}</span>
-              </li>
+              <li key={l.service}>{t(`services.${l.service}`)}</li>
             ))}
           </ul>
-          {oneTime.minimumApplied && (
-            <p className="mt-3 text-sm text-ink-soft">
-              {t("quote.result.minimum", { amount: money(oneTime.totalCents) })}
-            </p>
-          )}
           <Button
             variant={annualPlan ? "secondary" : "primary"}
             onClick={() => onAccept("one_time")}

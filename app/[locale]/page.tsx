@@ -2,27 +2,17 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ElevationGlyph } from "@/components/diagrams";
 import { buttonStyles } from "@/components/ui";
 import { BUSINESS } from "@/config/business";
-import { PRICING } from "@/config/pricing";
 import { Link } from "@/i18n/navigation";
-import { formatMoney } from "@/lib/format";
 import { SIDES } from "@/lib/schemas";
 
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations();
-  const money = (cents: number) => formatMoney(cents, locale);
-
   const services = [
-    {
-      name: t("services.windows"),
-      text: t("home.windowsText", {
-        regular: money(PRICING.windows.perPaneCents),
-        discounted: money(PRICING.windows.discountedPerPaneCents),
-      }),
-    },
-    { name: t("services.gutters"), text: t("home.guttersText", { price: money(PRICING.gutters.perStoreyCents) }) },
-    { name: t("services.houseWash"), text: t("home.houseWashText", { price: money(PRICING.houseWash.perWallCents) }) },
+    { name: t("services.windows"), text: t("home.windowsText") },
+    { name: t("services.gutters"), text: t("home.guttersText") },
+    { name: t("services.houseWash"), text: t("home.houseWashText") },
   ];
 
   const jsonLd = {
@@ -76,14 +66,14 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             </li>
           ))}
         </ul>
-        <p className="mt-4 text-sm text-ink-soft">{t("home.minimum", { price: money(PRICING.minimumPerVisitCents) })}</p>
+        <p className="mt-4 text-sm text-ink-soft">{t("home.minimum")}</p>
       </section>
 
       <section className="mx-auto max-w-5xl px-4 py-6">
         <div className="rounded-[14px] bg-blue px-6 py-8 text-white sm:px-10">
           <h2 className="text-2xl font-bold">{t("home.planTitle")}</h2>
           <p className="mt-3 max-w-[38rem] text-lg text-white/90">
-            {t("home.planText", { discounted: money(PRICING.windows.discountedPerPaneCents) })}
+            {t("home.planText")}
           </p>
         </div>
       </section>
