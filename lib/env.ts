@@ -21,7 +21,7 @@ export function makeWebhookUrl(): string | null {
 export function blobToken(): string | null {
   const token = process.env.BLOB_READ_WRITE_TOKEN?.trim() || null;
   if (!token && !localPhotosAllowed()) {
-    // Railway's disk is wiped on every deploy: customer photos must go to Vercel Blob.
+    // The server's disk is not kept between requests/deploys: customer photos must go to Vercel Blob.
     throw new Error("BLOB_READ_WRITE_TOKEN is required in production (photos cannot be stored on the server's disk).");
   }
   return token;

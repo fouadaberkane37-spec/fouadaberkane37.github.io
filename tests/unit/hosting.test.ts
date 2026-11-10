@@ -9,7 +9,7 @@ afterEach(() => {
   vi.unstubAllEnvs();
 });
 
-describe("photo storage on the server (Railway's disk is wiped on every deploy)", () => {
+describe("photo storage on the server (the server's disk is not kept)", () => {
   it("uses the Blob token when it is set", () => {
     vi.stubEnv("NODE_ENV", "production");
     vi.stubEnv("BLOB_READ_WRITE_TOKEN", " vercel_blob_rw_test ");
